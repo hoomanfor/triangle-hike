@@ -11,13 +11,28 @@ $.ajax({
         var dateTime = moment.unix(element.dt);
         var hour = parseInt(dateTime.format("H"));
         // console.log("hour", hour);
-        if (index < 10 && hour >= 7 && hour <= 17) {
+        if (index < 12 && hour >= 7 && hour <= 17) {
             index++; 
             console.log(element);
             var dayOfWeek = dateTime.format("ddd").toUpperCase();
-            var time = dateTime.format("h:mm A")
+            var time = dateTime.format("hA");
+            var temp = Math.round(element.main.temp);
+            var icon = "<td><img class='img-fluid' src='http://openweathermap.org/img/wn/" + element.weather[0].icon + "@2x.png' height='70' width='70'></td>"
+            // <td><img class="img-fluid" src="http://openweathermap.org/img/wn/10d@2x.png" height='70' width='70'></td>
+            console.log("icon", icon);
+            console.log("temp", temp);
             console.log("dayOfWeek", dayOfWeek);
             console.log("time", time);
+            var row = $("<tr>");
+            var td1 = $("<td>");
+            var td2 = $("<td>");
+            td1.html(dayOfWeek + " " + time + " " + temp + "&#8457;");
+            row.append(td1, icon); 
+            if (index < 7) {
+                $("#test1").append(row);
+            } else {
+                $("#test2").append(row);
+            }
         }
     })
     // var now = moment.unix(response.list[0].dt).format("dddd")
