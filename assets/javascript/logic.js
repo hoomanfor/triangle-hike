@@ -1,6 +1,29 @@
 
+var trails = [
+    {
+        name: "Sycamore Trail",
+        park: "William B. Umstead State Park",
+        url: "https://www.ncparks.gov/william-b-umstead-state-park/trail/sycamore-trail",
+        location: "Raleigh, NC", 
+        mi: 7.20,
+        km: 11.59,
+        p_lat: 35.867542,
+        p_lon: -78.752154
+    }
+]
+
+var key = "c3d8318715b5794788759512c752b645";
+var lat = trails[0].p_lat;
+var lon = trails[0].p_lon;
+
+$("#name").html(trails[0].name);
+$("#park").html("<a style='color: white' href='" + trails[0].url + "' target='_blank'>" + trails[0].park + "</a>");
+$("#location").html(trails[0].location);
+$("#distance").html(trails[0].mi + "mi / " + trails[0].km + " km");
+
+
 $.ajax({
-    url: "https://api.openweathermap.org/data/2.5/forecast?lat=35.867542&lon=-78.752154&units=imperial&appid=c3d8318715b5794788759512c752b645",
+    url: "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + key,
     method: "GET"
 }).then(function(response) {
     var index = 0; 
@@ -18,20 +41,18 @@ $.ajax({
             var time = dateTime.format("hA");
             var temp = Math.round(element.main.temp);
             var icon = "<td><img class='img-fluid' src='http://openweathermap.org/img/wn/" + element.weather[0].icon + "@2x.png' height='70' width='70'></td>"
-            // <td><img class="img-fluid" src="http://openweathermap.org/img/wn/10d@2x.png" height='70' width='70'></td>
             console.log("icon", icon);
             console.log("temp", temp);
             console.log("dayOfWeek", dayOfWeek);
             console.log("time", time);
             var row = $("<tr>");
-            var td1 = $("<td>");
-            var td2 = $("<td>");
-            td1.html(dayOfWeek + " " + time + " " + temp + "&#8457;");
-            row.append(td1, icon); 
+            var td = $("<td>");
+            td.html(dayOfWeek + " " + time + " " + temp + "&#8457;");
+            row.append(td, icon); 
             if (index < 7) {
-                $("#test1").append(row);
+                $("#forecast-col-1").append(row);
             } else {
-                $("#test2").append(row);
+                $("#forecast-col-2").append(row);
             }
         }
     })

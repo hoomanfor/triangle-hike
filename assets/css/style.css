@@ -1,9 +1,16 @@
 table {
-    text-align: right; 
+    text-align: center;
+    font-size: .80rem; 
 }
 
 h3 {
+    padding: .20rem; 
     position: absolute; 
     top: 8rem; 
     width: 100%;    
+}
+
+p {
+    padding: .20rem; 
+    margin: 0; 
 }
