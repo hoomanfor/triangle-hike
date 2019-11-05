@@ -13,12 +13,15 @@ var trails = [
 ]
 
 var map;
-    function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: -34.397, lng: 150.644},
-            zoom: 8
-        });
-    }
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 35.867542, lng: -78.752154},
+    zoom: 15
+  });
+  google.maps.event.addDomListener(window, 'load', initialize);
+}
+
+
 
 var key = "c3d8318715b5794788759512c752b645";
 var lat = trails[0].p_lat;
@@ -28,7 +31,6 @@ $("#name").html(trails[0].name);
 $("#park").html("<a style='color: white' href='" + trails[0].url + "' target='_blank'>" + trails[0].park + "</a>");
 $("#location").html(trails[0].location);
 $("#distance").html(trails[0].mi + "mi / " + trails[0].km + " km");
-
 
 $.ajax({
     url: "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + key,

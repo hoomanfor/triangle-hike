@@ -12,20 +12,6 @@
     <script src="assets//javascript/moment.js"></script>
     <!-- Font Awesome -->
     <title>Triangle Hike</title>
-    <!-- Google Maps API -->
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
   </head>
   <body>
 
@@ -55,17 +41,13 @@
             </div>
         </div>
 
-        <div class="row no-gutters">
-          <div class="col-6">
+        <div class="col-6 pr-1 py-1 bg-dark">
             <div id="map"></div>
-          </div>
         </div>
+
       </div>
 
     </div>
-
-  
-
        
 <!-- ----
 It takes the average person 30 minutes to hike a mile on gentle terrain.
@@ -84,8 +66,8 @@ Users will be able to mark end time
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <!-- Logic -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHPCmrDYfaXdUyjIQ16ArreXKY9kZKAVI&callback=initMap"></script>
     <script src="assets/javascript/logic.js"></script>
-    <!-- Google Maps API Script -->
+    <!-- Google Maps API Key -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHPCmrDYfaXdUyjIQ16ArreXKY9kZKAVI&callback=initMap" async defer></script>
   </body>
 </html>
