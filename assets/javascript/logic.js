@@ -12,6 +12,14 @@ var trails = [
     }
 ]
 
+var map;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: -34.397, lng: 150.644},
+            zoom: 8
+        });
+    }
+
 var key = "c3d8318715b5794788759512c752b645";
 var lat = trails[0].p_lat;
 var lon = trails[0].p_lon;
@@ -64,3 +72,4 @@ $.ajax({
 
 // https://openweathermap.org/forecast5
 // https://openweathermap.org/weather-conditions
+// AIzaSyDHPCmrDYfaXdUyjIQ16ArreXKY9kZKAVI
