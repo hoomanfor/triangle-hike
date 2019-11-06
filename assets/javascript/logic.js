@@ -12,13 +12,26 @@ var trails = [
     }
 ]
 
-var map;
+var myLatLng = {lat: 35.867542, lng: -78.752154};
+
 function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 35.867542, lng: -78.752154},
-    zoom: 15
-  });
-  google.maps.event.addDomListener(window, 'load', initialize);
+    var map = new google.maps.Map(document.getElementById('map'), {
+        center: myLatLng,
+        zoom: 15
+    });
+$(document).on("click", ".parking-icon", function(event) {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: myLatLng,
+        mapTypeId: google.maps.MapTypeId.SATELLITE,
+        zoom: 20
+    })
+    var marker = new google.maps.Marker({
+        position: myLatLng,
+        icon: google.maps.Icon,
+        map: map,
+        title: 'Parking'
+        });
+    })
 }
 
 
@@ -57,7 +70,7 @@ $.ajax({
             console.log("time", time);
             var row = $("<tr>");
             var td = $("<td>");
-            td.html(dayOfWeek + " " + time + " " + temp + "&#8457;");
+            td.html(dayOfWeek + " " + time + "<br>" + " " + temp + "&#8457;");
             row.append(td, icon); 
             if (index < 7) {
                 $("#forecast-col-1").append(row);
@@ -66,9 +79,11 @@ $.ajax({
             }
         }
     })
-    // var now = moment.unix(response.list[0].dt).format("dddd")
-    // console.log("now", now)
 })
+
+
+
+
 
 // .format("dddd, MMMM Do YYYY, h:mm:ss a")
 

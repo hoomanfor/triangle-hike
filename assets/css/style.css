@@ -1,5 +1,5 @@
 table {
-    text-align: center;
+    text-align: right;
     font-size: .80rem; 
 }
 
@@ -19,4 +19,8 @@ p {
 * element that contains the map. */
 #map {
     height: 100%;
+}
+
+.parking-icon {
+    cursor: pointer; 
 }
