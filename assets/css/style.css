@@ -1,6 +1,11 @@
+body {
+    font-family: 'Oxygen', sans-serif;
+}
+
 table {
-    text-align: right;
-    font-size: .80rem; 
+    text-align: right; 
+    font-size: .80rem;
+    width: 100%; 
 }
 
 h3 {
@@ -15,12 +20,20 @@ p {
     margin: 0; 
 }
 
-/* Always set the map height explicitly to define the size of the div
-* element that contains the map. */
 #map {
     height: 100%;
 }
 
-.parking-icon {
+.forecast:hover {
+    background-color: black;
     cursor: pointer; 
 }
+
+
+/* Google Fonts
+----
+font-family: 'Oxygen', sans-serif;
+font-family: 'Nunito Sans', sans-serif;
+font-family: 'PT Sans Narrow', sans-serif;
+font-family: 'Roboto', sans-serif;
+---- */
