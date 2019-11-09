@@ -10,11 +10,14 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Custom CSS -->
     <link rel="stylesheet" href ="assets/css/style.css">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
     <!-- Moment.js -->
     <script src="assets//javascript/moment.js"></script>
     <title>Triangle Hike</title>
   </head>
-  <body>
+  <body class="bg-secondary">
 
     <div class="container border">
 
@@ -48,6 +51,38 @@
         </div>
 
       </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-title"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="name">Name:</label>
+                <input class="form-control" type="text" id="name">
+              </div>
+              <div class="form-group">
+                <label>Meeting Spot:</label>
+                <select class="form-control">
+                    <option>Parking</option>
+                    <option>Trailhead</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary w-25">Join</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
 
     </div>
        

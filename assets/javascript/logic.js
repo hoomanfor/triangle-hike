@@ -1,4 +1,16 @@
 
+var firebaseConfig = {
+    apiKey: "AIzaSyArXfdNZHzGfI7uOm2Dh74z9FM8EUPxIcg",
+    authDomain: "triangle-hike-1572987855111.firebaseapp.com",
+    databaseURL: "https://triangle-hike-1572987855111.firebaseio.com",
+    projectId: "triangle-hike-1572987855111",
+    storageBucket: "triangle-hike-1572987855111.appspot.com",
+    messagingSenderId: "348712106018",
+    appId: "1:348712106018:web:6387471efac2ee37fa327b"
+  };
+
+firebase.initializeApp(firebaseConfig);
+
 var trails = [
     {
         name: "Sycamore Trail",
@@ -95,7 +107,7 @@ $.ajax({
             // console.log("temp", temp);
             // console.log("dayOfWeek", dayOfWeek);
             // console.log("time", time);
-            var row = $("<tr class='forecast' unix='"+ element.dt + "'>");
+            var row = $("<tr data-toggle='modal' data-target='#exampleModal' class='forecast' data-trail='" + trails[0].name + "'data-unix='"+ element.dt + "'>");
             var td = $("<td>");
             td.html(dayOfWeek + " " + time + "<br>" + " " + temp + "&#8457;");
             row.append(td, icon); 
@@ -108,10 +120,15 @@ $.ajax({
     })
 })
 
+
+
 $(document).on("click", ".forecast", function(event) {
     console.log("This Works!");
-    console.log($(this).attr("unix"));
-    //Research adding a Vertically Centered Modal to Confirm or Deny visiting a trial at the selected Date/Time
+    var trailName = $(this).attr("data-trail");
+    var forecastDate = $(this).attr("data-unix");
+    forecastDate = moment.unix(forecastDate).format("dddd, MMMM Do YYYY, h:mm a");
+    $("#modal-title").html(trailName + "<br>" + forecastDate)
+    console.log(forecastDate);
 });
 
 
