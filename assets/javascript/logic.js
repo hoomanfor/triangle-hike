@@ -11,6 +11,8 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+
+
 var trails = [
     {
         name: "Sycamore Trail",
@@ -75,6 +77,8 @@ $(document).on("click", ".trailhead-btn", function(event) {
 
 
 
+
+
 var key = "c3d8318715b5794788759512c752b645";
 var lat = trails[0].p_lat;
 var lon = trails[0].p_lon;
@@ -123,13 +127,30 @@ $.ajax({
 
 
 $(document).on("click", ".forecast", function(event) {
-    console.log("This Works!");
+    // console.log("This Works!");
     var trailName = $(this).attr("data-trail");
     var forecastDate = $(this).attr("data-unix");
     forecastDate = moment.unix(forecastDate).format("dddd, MMMM Do YYYY, h:mm a");
     $("#modal-title").html(trailName + "<br>" + forecastDate)
     console.log(forecastDate);
+    $(document).on("click", "#join", function(event) {
+        event.preventDefault(); 
+        // console.log("This Works 2!")
+        var hiker = $("#hiker").val().trim();
+        var meetup = $("#meetup").val();
+        // console.log("hiker", hiker);
+        // console.log("meetup", meetup);
+        if (hiker) {
+            $(".invalid-feedback").css("display", "none")
+            console.log("Crystal Fairy!")
+        } else {
+            $(".invalid-feedback").css("display", "block")
+        }
+    })
 });
+
+
+
 
 
 

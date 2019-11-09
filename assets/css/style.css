@@ -29,6 +29,28 @@ p {
     cursor: pointer; 
 }
 
+.error{
+	display: none;
+	margin-left: 10px;
+}		
+
+.error_show{
+	color: red;
+	margin-left: 10px;
+}
+
+input.invalid {
+	border: 2px solid red;
+}
+
+input.valid {
+	border: 2px solid green;
+}
+
+/* .invalid-feedback {
+    display: block; 
+} */
+
 
 /* Google Fonts
 ----

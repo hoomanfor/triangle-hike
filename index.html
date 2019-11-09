@@ -66,17 +66,20 @@
           <div class="modal-body">
             <form>
               <div class="form-group">
-                <label for="name">Name:</label>
-                <input class="form-control" type="text" id="name">
+                <label for="hiker">Name:</label>
+                <input class="form-control" id="hiker" type="text" required>
+                <div class="invalid-feedback">
+                  Please enter your name. 
+                </div>
               </div>
               <div class="form-group">
-                <label>Meeting Spot:</label>
-                <select class="form-control">
+                <label for="meetup">Meetup:</label>
+                <select id="meetup" class="form-control">
                     <option>Parking</option>
                     <option>Trailhead</option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary w-25">Join</button>
+              <button id="join" type="submit" class="btn btn-primary w-25">Join</button>
             </form>
           </div>
 
