@@ -11,7 +11,7 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-
+var database = firebase.database(); 
 
 var trails = [
     {
@@ -23,6 +23,36 @@ var trails = [
         km: 11.59,
         p_lat: 35.867542,
         p_lon: -78.752154
+    },
+    {   
+        name: "East Loop Trail",
+        park: "Lake Johnson Nature Park",
+        url: "https://www.raleighnc.gov/parks/content/ParksRec/Articles/Parks/LakeJohnson.html",
+        location: "Raleigh, NC",
+        mi: 2.70,
+        km: 4.35,
+        p_lat: 35.762919,
+        p_lon: -78.713816
+    }, 
+    {
+        name: "Neuse River Trail",
+        park: "Falls Lake State Recreation Area",
+        url: "https://www.ncparks.gov/falls-lake-state-recreation-area",
+        location: "Raleigh, NC",
+        mi: 27.20,
+        km: 43.77,
+        p_lat: 35.939955,
+        p_lon: -78.580651
+    },
+    {
+        name: "Cox Mountain Trail",
+        park: "Eno River State Park",
+        url: "https://www.ncparks.gov/eno-river-state-park",
+        location: "Durham, NC",
+        mi: 4.60,
+        km: 7.40,
+        p_lat: 36.073853,
+        p_lon: -79.006061
     }
 ]
 
@@ -76,6 +106,30 @@ $(document).on("click", ".trailhead-btn", function(event) {
 }
 
 
+trails.forEach(function(element) {
+    var row = $("<div class='row no-gutters'>");
+    console.log("element", element);
+    var colOneOfTwo = $("<div class='col-6 bg-dark'>");
+    var rowTwo = $("<div class='row no-gutters text-center m-1'>");
+    var colOneOfThree = $("<div class='col bg-primary text-light mr-1'>");
+    colOneOfThree.html("<h3 class='bg-primary'>" + element.name + "</h3>" + 
+    "<img src='assets/images/trail-1-250x200.jpg'>" + 
+    "<p>" + element.park + "</p>" +
+    "<p>" + element.location + "</p>" +
+    "<p>" + element.mi + "mi / " + element.km + "</p>" + 
+    "<button type='button' class='btn btn-dark parking-btn'>Parking</button>" + 
+    "<button type='button' class='btn btn-dark trailhead-btn'>Trailhead</button>");
+    var colTwoOfThree = $("<div class='col bg-success text-light'>");
+    colTwoOfThree.html("<table><tbody id='forecast-col-1'></tbody></table>");
+    var colThreeOfThree = $("<div class='col bg-success text-light'>");
+    colThreeOfThree.html("<table><tbody id='forecast-col-2'></tbody></table>");
+    var colTwoOfTwo = $("<div class='col-6 pr-1 py-1 bg-dark'>")
+    colTwoOfTwo.html("<div id='map'></div>")
+    rowTwo.append(colOneOfThree, colTwoOfThree, colThreeOfThree);
+    colOneOfTwo.append(rowTwo);
+    row.append(colOneOfTwo, colTwoOfTwo);
+    $("#test").append(row);
+})
 
 
 
@@ -141,16 +195,35 @@ $(document).on("click", ".forecast", function(event) {
         // console.log("hiker", hiker);
         // console.log("meetup", meetup);
         if (hiker) {
-            $(".invalid-feedback").css("display", "none")
-            console.log("Crystal Fairy!")
+            $(".invalid-feedback").css("display", "none");
+            $("input").css("border-color", "");
+            database.ref("hikers").push({
+                hiker: hiker,
+                trail: trailName,
+                meetup: meetup,
+                date_added: firebase.database.ServerValue.TIMESTAMP
+            })
         } else {
-            $(".invalid-feedback").css("display", "block")
+            $(".invalid-feedback").css("display", "block");
+            $("input").css("border-color", "#dc3545");
         }
+        $("#hiker").val("");
     })
 });
 
 
-
+database.ref("hikers").on("child_added", function(snapshot) {
+    if (snapshot.exists()) {
+        if (snapshot.val().trail === "Sycamore Trail") {
+        console.log(snapshot.val());
+        var div = $("<div>");
+        var hikerName = snapshot.val().hiker;
+        var hikerMeetup = snapshot.val().meetup; 
+        div.html(hikerName + " - " + hikerMeetup);
+            $("#attendees").append(div);
+        }
+    }
+})
 
 
 
