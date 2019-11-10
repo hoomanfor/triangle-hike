@@ -24,10 +24,10 @@ var trails = [
         location: "Raleigh, NC", 
         mi: 7.20,
         km: 11.59,
-        // p_lat: 35.867542,
-        // p_lon: -78.752154
-        p_lat: 59.329443,
-        p_lon: 18.068795
+        p_lat: 35.867542,
+        p_lon: -78.752154
+        // p_lat: 59.329443,
+        // p_lon: 18.068795
     },
     {   
         name: "East Loop Trail",
@@ -56,10 +56,10 @@ var trails = [
         location: "Durham, NC",
         mi: 4.60,
         km: 7.40,
-        // p_lat: 36.073853,
-        // p_lon: -79.006061
-        p_lat: -33.456021,
-        p_lon: -70.590045
+        p_lat: 36.073853,
+        p_lon: -79.006061
+        // p_lat: -33.456021,
+        // p_lon: -70.590045
     }
 ]
 
@@ -70,6 +70,7 @@ function initMap() {
         center: myLatLng,
         zoom: 15
     });
+    
 $(document).on("click", ".parking-btn", function(event) {
     map = new google.maps.Map(document.getElementById('map'), {
         center: myLatLng,
@@ -88,9 +89,10 @@ $(document).on("click", ".parking-btn", function(event) {
         });
         infowindow.open(map, marker);
         marker.addListener("click", function() {
-        infowindow.open(map, marker);
+            infowindow.open(map, marker);
         })
     })
+    
 $(document).on("click", ".trailhead-btn", function(event) {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 35.87185, lng: -78.76085},
