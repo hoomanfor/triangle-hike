@@ -25,10 +25,10 @@ var trails = [
         location: "Raleigh, NC", 
         mi: 7.20,
         km: 11.59,
-        p_lat: 35.867542,
-        p_lon: -78.752154
-        // p_lat: 59.329443,
-        // p_lon: 18.068795
+        p_lat: 35.871792,
+        p_lon: -78.761223,
+        t_lat: 35.871891,
+        t_lon: -78.759225
     },
     {   
         name: "East Loop Trail",
@@ -37,8 +37,10 @@ var trails = [
         location: "Raleigh, NC",
         mi: 2.70,
         km: 4.35,
-        p_lat: 35.762919,
-        p_lon: -78.713816
+        p_lat: 35.762904,
+        p_lon: -78.713821,
+        t_lat: 35.762609,
+        t_lon: -78.713874
     }, 
     {
         name: "Neuse River Trail",
@@ -48,7 +50,9 @@ var trails = [
         mi: 27.20,
         km: 43.77,
         p_lat: 35.939955,
-        p_lon: -78.580651
+        p_lon: -78.580651,
+        t_lat: 35.939850,
+        t_lon: -78.580258
     },
     {
         name: "Cox Mountain Trail",
@@ -58,25 +62,11 @@ var trails = [
         mi: 4.60,
         km: 7.40,
         p_lat: 36.073853,
-        p_lon: -79.006061
-        // p_lat: -33.456021,
-        // p_lon: -70.590045
+        p_lon: -79.006061,
+        t_lat: 36.075504, 
+        t_lon: -79.007502
     }
 ]
-
-var myLatLng = {lat: 35.867542, lng: -78.752154};
-
-
-function initMap() {
-    trails.forEach(function(element) {
-        var map = new google.maps.Map(document.getElementById('map-' + mapIndex), {
-            center: myLatLng,
-            zoom: 15
-        });
-        console.log("LOOK!! =>", mapIndex);
-        mapIndex++; 
-    })
-}
 
 
 function getForecast(lat, lon, trail) {
@@ -120,6 +110,54 @@ function getForecast(lat, lon, trail) {
     })
 }
 
+function initMap() {
+    trails.forEach(function(element) {
+        var map = new google.maps.Map(document.getElementById('map-' + mapIndex), {
+            center: {
+                lat: element.p_lat,
+                lng: element.p_lon
+            },
+            zoom: 15
+        });
+        
+        mapIndex++; 
+    })
+}
+
+$(document).on("click", ".parking-btn", function(event) {
+    var latitude = $(this).data("p_lat");
+    var longitude = $(this).data("p_lon");
+    var index = $(this).data("index");
+    console.log("latitude", latitude);
+    console.log("longitude", longitude);
+    console.log("index", index);
+    map = new google.maps.Map(document.getElementById('map-' + index), {
+        center: {
+            lat: latitude,
+            lng: longitude
+        },
+        mapTypeId: google.maps.MapTypeId.SATELLITE,
+        zoom: 20
+    });
+
+    var infowindow = new google.maps.InfoWindow({
+        content: latitude + ", " + longitude
+    });
+
+    var marker = new google.maps.Marker({
+        position: {
+            lat: latitude,
+            lng: longitude
+        },
+        animation: google.maps.Animation.DROP,
+        map: map
+        });
+        infowindow.open(map, marker);
+        marker.addListener("click", function() {
+            infowindow.open(map, marker);
+        })
+    })
+
 trails.forEach(function(element) {
     var row = $("<div class='row no-gutters'>");
     console.log("element", element);
@@ -131,7 +169,7 @@ trails.forEach(function(element) {
     "<p>" + element.park + "</p>" +
     "<p>" + element.location + "</p>" +
     "<p>" + element.mi + " mi / " + element.km + " km</p>" + 
-    "<button type='button' class='btn btn-dark parking-btn'>Parking</button>" + 
+    "<button type='button' class='btn btn-dark parking-btn' data-p_lat='" + element.p_lat + "' data-p_lon='" + element.p_lon + "' data-index='" + trailsIndex + "'>Parking</button>" + 
     "<button type='button' class='btn btn-dark trailhead-btn'>Trailhead</button>");
     var colTwoOfThree = $("<div class='col bg-success text-light'>");
     colTwoOfThree.html("<table><tbody id='forecast-col-1-" + trailsIndex + "'></tbody></table>");
