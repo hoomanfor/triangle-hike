@@ -20,10 +20,6 @@ p {
     margin: 0; 
 }
 
-#map {
-    height: 100%;
-}
-
 .forecast:hover {
     background-color: black;
     cursor: pointer; 

@@ -15,6 +15,7 @@ var database = firebase.database();
 var key = "c3d8318715b5794788759512c752b645";
 var forecastIndex = 0;
 var trailsIndex = 0;
+var mapIndex = 0;
 
 var trails = [
     {
@@ -65,54 +66,18 @@ var trails = [
 
 var myLatLng = {lat: 35.867542, lng: -78.752154};
 
+
 function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
-        center: myLatLng,
-        zoom: 15
-    });
-    
-$(document).on("click", ".parking-btn", function(event) {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: myLatLng,
-        mapTypeId: google.maps.MapTypeId.SATELLITE,
-        zoom: 20
-    });
-
-    var infowindow = new google.maps.InfoWindow({
-        content: "35.867542, -78.752154"
-    });
-
-    var marker = new google.maps.Marker({
-        position: myLatLng,
-        animation: google.maps.Animation.DROP,
-        map: map
+    trails.forEach(function(element) {
+        var map = new google.maps.Map(document.getElementById('map-' + mapIndex), {
+            center: myLatLng,
+            zoom: 15
         });
-        infowindow.open(map, marker);
-        marker.addListener("click", function() {
-            infowindow.open(map, marker);
-        })
-    })
-    
-$(document).on("click", ".trailhead-btn", function(event) {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 35.87185, lng: -78.76085},
-        mapTypeId: google.maps.MapTypeId.SATELLITE,
-        zoom: 20
-    })
-    var infowindow = new google.maps.InfoWindow({
-        content: "35.87185, -78.76085"
-    })
-    var marker = new google.maps.Marker({
-        position: {lat: 35.87185, lng: -78.76085},
-        animation: google.maps.Animation.DROP,
-        map: map
-        });
-        infowindow.open(map, marker);
-        marker.addListener("click", function() {
-            infowindow.open(map, marker);
-        })
+        console.log("LOOK!! =>", mapIndex);
+        mapIndex++; 
     })
 }
+
 
 function getForecast(lat, lon, trail) {
     $.ajax({
@@ -173,7 +138,7 @@ trails.forEach(function(element) {
     var colThreeOfThree = $("<div class='col bg-success text-light'>");
     colThreeOfThree.html("<table><tbody id='forecast-col-2-" + trailsIndex + "'></tbody></table>");
     var colTwoOfTwo = $("<div class='col-6 pr-1 py-1 bg-dark'>")
-    colTwoOfTwo.html("<div id='map'></div>")
+    colTwoOfTwo.html("<div style='height: 100%;' id='map-" + trailsIndex + "'></div>")
     rowTwo.append(colOneOfThree, colTwoOfThree, colThreeOfThree);
     colOneOfTwo.append(rowTwo);
     row.append(colOneOfTwo, colTwoOfTwo);
@@ -227,6 +192,56 @@ database.ref("hikers").on("child_added", function(snapshot) {
         }
     }
 })
+
+
+// function initMap() {
+//     var map = new google.maps.Map(document.getElementById('map-0'), {
+//         center: myLatLng,
+//         zoom: 15
+//     });
+    
+// $(document).on("click", ".parking-btn", function(event) {
+//     map = new google.maps.Map(document.getElementById('map-0'), {
+//         center: myLatLng,
+//         mapTypeId: google.maps.MapTypeId.SATELLITE,
+//         zoom: 20
+//     });
+
+//     var infowindow = new google.maps.InfoWindow({
+//         content: "35.867542, -78.752154"
+//     });
+
+//     var marker = new google.maps.Marker({
+//         position: myLatLng,
+//         animation: google.maps.Animation.DROP,
+//         map: map
+//         });
+//         infowindow.open(map, marker);
+//         marker.addListener("click", function() {
+//             infowindow.open(map, marker);
+//         })
+//     })
+    
+// $(document).on("click", ".trailhead-btn", function(event) {
+//     map = new google.maps.Map(document.getElementById('map-0'), {
+//         center: {lat: 35.87185, lng: -78.76085},
+//         mapTypeId: google.maps.MapTypeId.SATELLITE,
+//         zoom: 20
+//     })
+//     var infowindow = new google.maps.InfoWindow({
+//         content: "35.87185, -78.76085"
+//     })
+//     var marker = new google.maps.Marker({
+//         position: {lat: 35.87185, lng: -78.76085},
+//         animation: google.maps.Animation.DROP,
+//         map: map
+//         });
+//         infowindow.open(map, marker);
+//         marker.addListener("click", function() {
+//             infowindow.open(map, marker);
+//         })
+//     })
+// }
 
 
 // .format("dddd, MMMM Do YYYY, h:mm:ss a")
