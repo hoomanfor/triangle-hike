@@ -200,7 +200,7 @@ trails.forEach(function(element) {
     var colOneOfThree = $("<div class='col bg-primary text-light mr-1'>");
     colOneOfThree.html("<h3 class='bg-primary'>" + element.name + "</h3>" + 
     "<img src='assets/images/trail-1-250x200.jpg'>" + 
-    "<p>" + element.park + "</p>" +
+    "<p>" + "<a class='park-url' href='" + element.url + "' target='_blank'>" + element.park + "</a></p>" +
     "<p>" + element.location + "</p>" +
     "<p>" + element.mi + " mi / " + element.km + " km</p>" + 
     "<button type='button' class='btn btn-dark parking-btn' data-p_lat='" + element.p_lat + "' data-p_lon='" + element.p_lon + "' data-index='" + trailsIndex + "'>Parking</button>" + 
@@ -225,7 +225,8 @@ $(document).on("click", ".forecast", function(event) {
     var trailName = $(this).attr("data-trail");
     var forecastDate = $(this).attr("data-unix");
     forecastDate = moment.unix(forecastDate).format("dddd, MMMM Do YYYY, h:mm a");
-    $("#modal-title").html(trailName + "<br>" + forecastDate)
+    $("#modal-header").html(forecastDate);
+    $("#modal-trail").html(trailName);
     console.log(forecastDate);
     $(document).on("click", "#join", function(event) {
         event.preventDefault(); 
@@ -256,11 +257,11 @@ database.ref("hikers").on("child_added", function(snapshot) {
     if (snapshot.exists()) {
         if (snapshot.val().trail === "Sycamore Trail") {
         console.log(snapshot.val());
-        var div = $("<div>");
-        var hikerName = snapshot.val().hiker;
-        var hikerMeetup = snapshot.val().meetup; 
-        div.html(hikerName + " - " + hikerMeetup);
-            $("#attendees").append(div);
+        var row = $("<tr>");
+        var hikerName = "<td>" + snapshot.val().hiker + "</td>";
+        var hikerMeetup = "<td>" + snapshot.val().meetup + "</td>";
+        row.append(hikerName, hikerMeetup);
+            $("#attendees").append(row);
         }
     }
 })

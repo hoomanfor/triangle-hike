@@ -8,6 +8,12 @@ table {
     width: 100%; 
 }
 
+.table {
+    text-align: left; 
+    font-size: .90rem;
+    width: 100%;
+}
+
 h3 {
     padding: .20rem; 
     position: absolute; 
@@ -46,6 +52,16 @@ input.valid {
 .parking-btn,
 .trailhead-btn {
     margin: .20rem; 
+}
+
+.park-url,
+.park-url:hover {
+    color: white; 
+    text-decoration: none; 
+}
+
+.close {
+    font-size: 2rem;
 }
 
 

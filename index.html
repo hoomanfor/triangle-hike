@@ -19,45 +19,69 @@
   </head>
   <body class="bg-secondary">
 
-
-    <div id="test" class="container border"></div>
-
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalTitle" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modal-title"></h5>
+            <h5 class="modal-title" id="modal-header"></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
 
           <div class="modal-body">
-            <h2>Hikers</h1>
-            <div id="attendees"></div>
-            <form id="hiker-form">
-              <div class="form-group">
-                <label for="hiker">Name:</label>
-                <input class="form-control" id="hiker" type="text" required>
-                <div class="invalid-feedback">
-                  Please enter your name. 
+            <h4 id="modal-trail"></h4>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name:</th>
+                    <th>Meetup:</th>
+                  </tr>
+                </thead>
+                <tbody id="attendees">
+                </tbody>
+              </table>
+            <div class="container-fluid">
+              <form id="hiker-form">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="hiker">Name:</label>
+                      <input class="form-control" id="hiker" type="text" required>
+                      <div class="invalid-feedback">
+                        Please enter your name. 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="meetup">Meetup:</label>
+                      <select id="meetup" class="form-control">
+                          <option>Parking</option>
+                          <option>Trailhead</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label for="meetup">Meetup:</label>
-                <select id="meetup" class="form-control">
-                    <option>Parking</option>
-                    <option>Trailhead</option>
-                </select>
-              </div>
-              <button id="join" type="submit" class="btn btn-primary w-25">Join</button>
-            </form>
+                <div class="row">
+                  <div class="col-12 text-right">
+                    <button id="join" type="submit" class="btn btn-primary w-25">Join</button>
+                  </div>
+                </div>
+              </form>
+
+            </div>
           </div>
 
         </div>
       </div>
     </div>
+
+
+    <div id="test" class="container border"></div>
+
+
        
 <!-- ----
 It takes the average person 30 minutes to hike a mile on gentle terrain.
