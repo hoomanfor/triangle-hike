@@ -156,7 +156,41 @@ $(document).on("click", ".parking-btn", function(event) {
         marker.addListener("click", function() {
             infowindow.open(map, marker);
         })
-    })
+    });
+
+$(document).on("click", ".trailhead-btn", function(event) {
+    var latitude = $(this).data("t_lat");
+    var longitude = $(this).data("t_lon");
+    var index = $(this).data("index");
+    console.log("latitude", latitude);
+    console.log("longitude", longitude);
+    console.log("index", index);
+    map = new google.maps.Map(document.getElementById('map-' + index), {
+        center: {
+            lat: latitude,
+            lng: longitude
+        },
+        mapTypeId: google.maps.MapTypeId.SATELLITE,
+        zoom: 20
+    });
+
+    var infowindow = new google.maps.InfoWindow({
+        content: latitude + ", " + longitude
+    });
+
+    var marker = new google.maps.Marker({
+        position: {
+            lat: latitude,
+            lng: longitude
+        },
+        animation: google.maps.Animation.DROP,
+        map: map
+        });
+        infowindow.open(map, marker);
+        marker.addListener("click", function() {
+            infowindow.open(map, marker);
+        })
+    });
 
 trails.forEach(function(element) {
     var row = $("<div class='row no-gutters'>");
@@ -170,12 +204,12 @@ trails.forEach(function(element) {
     "<p>" + element.location + "</p>" +
     "<p>" + element.mi + " mi / " + element.km + " km</p>" + 
     "<button type='button' class='btn btn-dark parking-btn' data-p_lat='" + element.p_lat + "' data-p_lon='" + element.p_lon + "' data-index='" + trailsIndex + "'>Parking</button>" + 
-    "<button type='button' class='btn btn-dark trailhead-btn'>Trailhead</button>");
+    "<button type='button' class='btn btn-dark trailhead-btn' data-t_lat='" + element.t_lat + "' data-t_lon='" + element.t_lon + "' data-index='" + trailsIndex + "'>Trailhead</button>");
     var colTwoOfThree = $("<div class='col bg-success text-light'>");
     colTwoOfThree.html("<table><tbody id='forecast-col-1-" + trailsIndex + "'></tbody></table>");
     var colThreeOfThree = $("<div class='col bg-success text-light'>");
     colThreeOfThree.html("<table><tbody id='forecast-col-2-" + trailsIndex + "'></tbody></table>");
-    var colTwoOfTwo = $("<div class='col-6 pr-1 py-1 bg-dark'>")
+    var colTwoOfTwo = $("<div class='col-6 pr-1 py-1 bg-dark'>");
     colTwoOfTwo.html("<div style='height: 100%;' id='map-" + trailsIndex + "'></div>")
     rowTwo.append(colOneOfThree, colTwoOfThree, colThreeOfThree);
     colOneOfTwo.append(rowTwo);

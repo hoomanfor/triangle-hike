@@ -43,9 +43,10 @@ input.valid {
 	border: 2px solid green;
 }
 
-/* .invalid-feedback {
-    display: block; 
-} */
+.parking-btn,
+.trailhead-btn {
+    margin: .20rem; 
+}
 
 
 /* Google Fonts
