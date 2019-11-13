@@ -224,6 +224,8 @@ $(document).on("click", ".forecast", function(event) {
     // console.log("This Works!");
     var trailName = $(this).attr("data-trail");
     var forecastDate = $(this).attr("data-unix");
+    var unix = $(this).attr("data-unix");
+    $("#attendees").attr("data-table", unix);
     forecastDate = moment.unix(forecastDate).format("dddd, MMMM Do YYYY, h:mm a");
     $("#modal-header").html(forecastDate);
     $("#modal-trail").html(trailName);
@@ -242,7 +244,8 @@ $(document).on("click", ".forecast", function(event) {
                 hiker: hiker,
                 trail: trailName,
                 meetup: meetup,
-                date_added: firebase.database.ServerValue.TIMESTAMP
+                date_added: firebase.database.ServerValue.TIMESTAMP,
+                unix: unix
             })
         } else {
             $(".invalid-feedback").css("display", "block");
@@ -250,12 +253,16 @@ $(document).on("click", ".forecast", function(event) {
         }
         $("#hiker").val("");
     })
+    var test = $("#attendees[data-table='1573732800']")
+    console.log("LOOK!", test) // LOOK HERE
 });
+
 
 
 database.ref("hikers").on("child_added", function(snapshot) {
     if (snapshot.exists()) {
-        if (snapshot.val().trail === "Sycamore Trail") {
+        console.log("LOOK!2 =>", snapshot.val().unix);
+        if (snapshot.val().unix === "unix") {
         console.log(snapshot.val());
         var row = $("<tr>");
         var hikerName = "<td>" + snapshot.val().hiker + "</td>";
@@ -265,6 +272,9 @@ database.ref("hikers").on("child_added", function(snapshot) {
         }
     }
 })
+
+// database.ref("hikers").on("value")
+
 
 
 // function initMap() {
