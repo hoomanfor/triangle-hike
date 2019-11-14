@@ -16,6 +16,7 @@ var key = "c3d8318715b5794788759512c752b645";
 var forecastIndex = 0;
 var trailsIndex = 0;
 var mapIndex = 0;
+var unix; 
 
 var trails = [
     {
@@ -105,7 +106,7 @@ function getForecast(lat, lon, trail) {
                 }
             } 
         })
-        console.log("forecastIndex", forecastIndex);
+        // console.log("forecastIndex", forecastIndex);
         forecastIndex++;
     })
 }
@@ -194,7 +195,7 @@ $(document).on("click", ".trailhead-btn", function(event) {
 
 trails.forEach(function(element) {
     var row = $("<div class='row no-gutters'>");
-    console.log("element", element);
+    // console.log("element", element);
     var colOneOfTwo = $("<div class='col-6 bg-dark'>");
     var rowTwo = $("<div class='row no-gutters text-center m-1'>");
     var colOneOfThree = $("<div class='col bg-primary text-light mr-1'>");
@@ -216,62 +217,69 @@ trails.forEach(function(element) {
     row.append(colOneOfTwo, colTwoOfTwo);
     $("#test").append(row);
     getForecast(element.p_lat, element.p_lon, element.name);
-    console.log("trailsIndex", trailsIndex);
+    // console.log("trailsIndex", trailsIndex);
     trailsIndex++;
 })
 
 $(document).on("click", ".forecast", function(event) {
     // console.log("This Works!");
+    event.preventDefault()
     var trailName = $(this).attr("data-trail");
     var forecastDate = $(this).attr("data-unix");
-    var unix = $(this).attr("data-unix");
+    unix = $(this).attr("data-unix");
+    console.log("unix", unix);
     $("#attendees").attr("data-table", unix);
     forecastDate = moment.unix(forecastDate).format("dddd, MMMM Do YYYY, h:mm a");
     $("#modal-header").html(forecastDate);
     $("#modal-trail").html(trailName);
     console.log(forecastDate);
-    $(document).on("click", "#join", function(event) {
-        event.preventDefault(); 
-        // console.log("This Works 2!")
-        var hiker = $("#hiker").val().trim();
-        var meetup = $("#meetup").val();
-        // console.log("hiker", hiker);
-        // console.log("meetup", meetup);
-        if (hiker) {
-            $(".invalid-feedback").css("display", "none");
-            $("input").css("border-color", "");
-            database.ref("hikers").push({
-                hiker: hiker,
-                trail: trailName,
-                meetup: meetup,
-                date_added: firebase.database.ServerValue.TIMESTAMP,
-                unix: unix
-            })
-        } else {
-            $(".invalid-feedback").css("display", "block");
-            $("input").css("border-color", "#dc3545");
-        }
-        $("#hiker").val("");
-    })
-    var test = $("#attendees[data-table='1573732800']")
-    console.log("LOOK!", test) // LOOK HERE
 });
 
-
+$(document).on("click", "#join", function(event) {
+    console.log("event.type", event.type);
+    event.preventDefault(); 
+    // console.log("This Works 2!")
+    var hiker = $("#hiker").val().trim();
+    var meetup = $("#meetup").val();
+    // console.log("hiker", hiker);
+    // console.log("meetup", meetup);
+    if (hiker) {
+        $(".invalid-feedback").css("display", "none");
+        $("input").css("border-color", "");
+        database.ref("hikers").push({
+            hiker: hiker,
+            meetup: meetup,
+            date_added: firebase.database.ServerValue.TIMESTAMP,
+            unix: unix
+        })
+    } else {
+        $(".invalid-feedback").css("display", "block");
+        $("input").css("border-color", "#dc3545");
+    }
+    $("#hiker").val("");
+})
 
 database.ref("hikers").on("child_added", function(snapshot) {
     if (snapshot.exists()) {
-        console.log("LOOK!2 =>", snapshot.val().unix);
-        if (snapshot.val().unix === "unix") {
-        console.log(snapshot.val());
+        var modalID = $("#attendees").data("table");
+        // $("#attendees[data-table='"+ modalID +"']").html("");
+        console.log("modalID =>", modalID);
+        console.log("snapshot.val().unix =>", snapshot.val().unix);
+        if (snapshot.val().unix == modalID) {
         var row = $("<tr>");
         var hikerName = "<td>" + snapshot.val().hiker + "</td>";
         var hikerMeetup = "<td>" + snapshot.val().meetup + "</td>";
         row.append(hikerName, hikerMeetup);
-            $("#attendees").append(row);
+            $("#attendees[data-table='"+ modalID +"']").append(row);
+        } else {
+            console.log("snapshot.val().unix != modalID")
         }
     }
 })
+
+
+
+
 
 // database.ref("hikers").on("value")
 
