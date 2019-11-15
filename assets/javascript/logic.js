@@ -16,7 +16,7 @@ var key = "c3d8318715b5794788759512c752b645";
 var forecastIndex = 0;
 var trailsIndex = 0;
 var mapIndex = 0;
-var unix; 
+var unix;
 
 var trails = [
     {
@@ -125,6 +125,14 @@ function initMap() {
     })
 }
 
+// function getHiker() {
+//     database.ref("hikers").once("child_added", function(snapshot) {
+//         if (snapshot.exists()) {
+//             console.log(snapshot.val());
+//         }
+//     })
+// }
+
 $(document).on("click", ".parking-btn", function(event) {
     var latitude = $(this).data("p_lat");
     var longitude = $(this).data("p_lon");
@@ -222,8 +230,10 @@ trails.forEach(function(element) {
 })
 
 $(document).on("click", ".forecast", function(event) {
-    // console.log("This Works!");
-    event.preventDefault()
+    event.preventDefault();
+    // event.stopImmediatePropagation()
+    // event.isImmediatePropagationStopped()
+    console.log("this works 1", event);
     var trailName = $(this).attr("data-trail");
     var forecastDate = $(this).attr("data-unix");
     unix = $(this).attr("data-unix");
@@ -235,10 +245,10 @@ $(document).on("click", ".forecast", function(event) {
     console.log(forecastDate);
 });
 
+
 $(document).on("click", "#join", function(event) {
-    console.log("event.type", event.type);
     event.preventDefault(); 
-    // console.log("This Works 2!")
+    console.log("this works 2", event);
     var hiker = $("#hiker").val().trim();
     var meetup = $("#meetup").val();
     // console.log("hiker", hiker);
@@ -257,25 +267,39 @@ $(document).on("click", "#join", function(event) {
         $("input").css("border-color", "#dc3545");
     }
     $("#hiker").val("");
+    // getHiker()
 })
 
-database.ref("hikers").on("child_added", function(snapshot) {
+database.ref("hikers").on("value", function(snapshot) {
     if (snapshot.exists()) {
-        var modalID = $("#attendees").data("table");
-        // $("#attendees[data-table='"+ modalID +"']").html("");
-        console.log("modalID =>", modalID);
-        console.log("snapshot.val().unix =>", snapshot.val().unix);
-        if (snapshot.val().unix == modalID) {
-        var row = $("<tr>");
-        var hikerName = "<td>" + snapshot.val().hiker + "</td>";
-        var hikerMeetup = "<td>" + snapshot.val().meetup + "</td>";
-        row.append(hikerName, hikerMeetup);
-            $("#attendees[data-table='"+ modalID +"']").append(row);
-        } else {
-            console.log("snapshot.val().unix != modalID")
-        }
+        snapshot.forEach(function(childSnapshot) {
+            console.log(childSnapshot.val());
+        })
+        // console.log(snapshot.val())
     }
 })
+
+
+
+
+
+// database.ref("hikers").on("child_added", function(snapshot) {
+//     if (snapshot.exists()) {
+//         var modalID = $("#attendees").data("table");
+//         // $("#attendees[data-table='"+ modalID +"']").html("");
+//         console.log("modalID =>", modalID);
+//         console.log("snapshot.val().unix =>", snapshot.val().unix);
+//         if (snapshot.val().unix == modalID) {
+//         var row = $("<tr>");
+//         var hikerName = "<td>" + snapshot.val().hiker + "</td>";
+//         var hikerMeetup = "<td>" + snapshot.val().meetup + "</td>";
+//         row.append(hikerName, hikerMeetup);
+//             $("#attendees[data-table='"+ modalID +"']").append(row);
+//         } else {
+//             console.log("snapshot.val().unix != modalID")
+//         }
+//     }
+// })
 
 
 
@@ -332,6 +356,18 @@ database.ref("hikers").on("child_added", function(snapshot) {
 //             infowindow.open(map, marker);
 //         })
 //     })
+// }
+
+
+// function snapshotToArray(snapshot) {
+//     var returnArr = [];
+//     snapshot.forEach(function(childSnapshot) {
+//         var item = childSnapshot.val();
+//         item.key = childSnapshot.key;
+
+//         returnArr.push(item);
+//     })
+//     return returnArr
 // }
 
 
