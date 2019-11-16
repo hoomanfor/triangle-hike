@@ -125,13 +125,18 @@ function initMap() {
     })
 }
 
-// function getHiker() {
-//     database.ref("hikers").once("child_added", function(snapshot) {
-//         if (snapshot.exists()) {
-//             console.log(snapshot.val());
-//         }
-//     })
-// }
+function getHikers() {
+    database.ref("hikers").once("value", function(snapshot) {
+        if (snapshot.exists()) {
+            snapshot.forEach(function(childSnapshot) {
+                console.log(childSnapshot.val());
+            })
+            // console.log(snapshot.val())
+        }
+    })
+}
+
+getHikers()
 
 $(document).on("click", ".parking-btn", function(event) {
     var latitude = $(this).data("p_lat");
@@ -231,9 +236,6 @@ trails.forEach(function(element) {
 
 $(document).on("click", ".forecast", function(event) {
     event.preventDefault();
-    // event.stopImmediatePropagation()
-    // event.isImmediatePropagationStopped()
-    console.log("this works 1", event);
     var trailName = $(this).attr("data-trail");
     var forecastDate = $(this).attr("data-unix");
     unix = $(this).attr("data-unix");
@@ -245,10 +247,9 @@ $(document).on("click", ".forecast", function(event) {
     console.log(forecastDate);
 });
 
-
-$(document).on("click", "#join", function(event) {
+$("#join").click("click", function(event) {
+    getHikers();
     event.preventDefault(); 
-    console.log("this works 2", event);
     var hiker = $("#hiker").val().trim();
     var meetup = $("#meetup").val();
     // console.log("hiker", hiker);
@@ -267,17 +268,8 @@ $(document).on("click", "#join", function(event) {
         $("input").css("border-color", "#dc3545");
     }
     $("#hiker").val("");
-    // getHiker()
 })
 
-database.ref("hikers").on("value", function(snapshot) {
-    if (snapshot.exists()) {
-        snapshot.forEach(function(childSnapshot) {
-            console.log(childSnapshot.val());
-        })
-        // console.log(snapshot.val())
-    }
-})
 
 
 
