@@ -18,6 +18,7 @@ var trailsIndex = 0;
 var mapIndex = 0;
 var unix;
 
+
 var trails = [
     {
         name: "Sycamore Trail",
@@ -125,29 +126,21 @@ function initMap() {
     })
 }
 
-function getHikers() {
+function getHikers(unix) {
     database.ref("hikers").once("value", function(snapshot) {
         if (snapshot.exists()) {
-            var modalID = $("#attendees").data("table");
-            console.log("modalID", modalID)
             snapshot.forEach(function(childSnapshot) {
-                console.log(childSnapshot.val());
-                console.log("childSnapshot.val().unix", childSnapshot.val().unix);
-                if (childSnapshot.val().unix == modalID) {
+                if (childSnapshot.val().unix == unix) {
                     var row = $("<tr>");
                     var hikerName = "<td>" + childSnapshot.val().hiker + "</td>";
                     var hikerMeetup = "<td>" + childSnapshot.val().meetup + "</td>";
                     row.append(hikerName, hikerMeetup);
-                        $("#attendees[data-table='"+ modalID +"']").append(row);
-                    } else {
-                        console.log("childSnapshot.val().unix != modalID")
+                        $("#attendees[data-table='"+ unix +"']").append(row);
                 }
             })
         }
     })
 }
-
-getHikers()
 
 $(document).on("click", ".parking-btn", function(event) {
     var latitude = $(this).data("p_lat");
@@ -250,16 +243,13 @@ $(document).on("click", ".forecast", function(event) {
     var trailName = $(this).attr("data-trail");
     var forecastDate = $(this).attr("data-unix");
     unix = $(this).attr("data-unix");
-    // console.log("LOOK!", $("#attendees[data-table='" + unix + "']"));
-    // $("#attendees[data-table='" + unix + "']").html("");
-    // console.log("unix", unix);
     $("#attendees").attr("data-table", unix);
     $("#attendees[data-table='" + unix + "']").html("");
     forecastDate = moment.unix(forecastDate).format("dddd, MMMM Do YYYY, h:mm a");
     $("#modal-header").html(forecastDate);
     $("#modal-trail").html(trailName);
     console.log(forecastDate);
-    getHikers();
+    getHikers(unix);
 });
 
 $("#join").click("click", function(event) {
@@ -282,7 +272,8 @@ $("#join").click("click", function(event) {
         $("input").css("border-color", "#dc3545");
     }
     $("#hiker").val("");
-    getHikers()
+    $("#attendees[data-table='" + unix + "']").html("");
+    getHikers(unix);
 })
 
 
