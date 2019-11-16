@@ -17,7 +17,7 @@ var forecastIndex = 0;
 var trailsIndex = 0;
 var mapIndex = 0;
 var unix;
-
+var trailName;
 
 var trails = [
     {
@@ -126,16 +126,19 @@ function initMap() {
     })
 }
 
-function getHikers(unix) {
+function getHikers(unix, trailName) {
     database.ref("hikers").once("value", function(snapshot) {
         if (snapshot.exists()) {
+            console.log("trailName", trailName);
             snapshot.forEach(function(childSnapshot) {
-                if (childSnapshot.val().unix == unix) {
+                if (childSnapshot.val().unix == unix && childSnapshot.val().trail == trailName) {
                     var row = $("<tr>");
                     var hikerName = "<td>" + childSnapshot.val().hiker + "</td>";
                     var hikerMeetup = "<td>" + childSnapshot.val().meetup + "</td>";
                     row.append(hikerName, hikerMeetup);
                         $("#attendees[data-table='"+ unix +"']").append(row);
+                } else {
+                    console.log("Does not meet condition.")
                 }
             })
         }
@@ -240,7 +243,7 @@ trails.forEach(function(element) {
 
 $(document).on("click", ".forecast", function(event) {
     event.preventDefault();
-    var trailName = $(this).attr("data-trail");
+    trailName = $(this).attr("data-trail");
     var forecastDate = $(this).attr("data-unix");
     unix = $(this).attr("data-unix");
     $("#attendees").attr("data-table", unix);
@@ -249,7 +252,7 @@ $(document).on("click", ".forecast", function(event) {
     $("#modal-header").html(forecastDate);
     $("#modal-trail").html(trailName);
     console.log(forecastDate);
-    getHikers(unix);
+    getHikers(unix, trailName);
 });
 
 $("#join").click("click", function(event) {
@@ -263,6 +266,7 @@ $("#join").click("click", function(event) {
         $("input").css("border-color", "");
         database.ref("hikers").push({
             hiker: hiker,
+            trail: trailName,
             meetup: meetup,
             date_added: firebase.database.ServerValue.TIMESTAMP,
             unix: unix
@@ -273,7 +277,7 @@ $("#join").click("click", function(event) {
     }
     $("#hiker").val("");
     $("#attendees[data-table='" + unix + "']").html("");
-    getHikers(unix);
+    getHikers(unix, trailName);
 })
 
 
