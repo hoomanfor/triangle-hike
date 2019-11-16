@@ -128,10 +128,21 @@ function initMap() {
 function getHikers() {
     database.ref("hikers").once("value", function(snapshot) {
         if (snapshot.exists()) {
+            var modalID = $("#attendees").data("table");
+            console.log("modalID", modalID)
             snapshot.forEach(function(childSnapshot) {
                 console.log(childSnapshot.val());
+                console.log("childSnapshot.val().unix", childSnapshot.val().unix);
+                if (childSnapshot.val().unix == modalID) {
+                    var row = $("<tr>");
+                    var hikerName = "<td>" + childSnapshot.val().hiker + "</td>";
+                    var hikerMeetup = "<td>" + childSnapshot.val().meetup + "</td>";
+                    row.append(hikerName, hikerMeetup);
+                        $("#attendees[data-table='"+ modalID +"']").append(row);
+                    } else {
+                        console.log("childSnapshot.val().unix != modalID")
+                }
             })
-            // console.log(snapshot.val())
         }
     })
 }
@@ -239,16 +250,19 @@ $(document).on("click", ".forecast", function(event) {
     var trailName = $(this).attr("data-trail");
     var forecastDate = $(this).attr("data-unix");
     unix = $(this).attr("data-unix");
-    console.log("unix", unix);
+    // console.log("LOOK!", $("#attendees[data-table='" + unix + "']"));
+    // $("#attendees[data-table='" + unix + "']").html("");
+    // console.log("unix", unix);
     $("#attendees").attr("data-table", unix);
+    $("#attendees[data-table='" + unix + "']").html("");
     forecastDate = moment.unix(forecastDate).format("dddd, MMMM Do YYYY, h:mm a");
     $("#modal-header").html(forecastDate);
     $("#modal-trail").html(trailName);
     console.log(forecastDate);
+    getHikers();
 });
 
 $("#join").click("click", function(event) {
-    getHikers();
     event.preventDefault(); 
     var hiker = $("#hiker").val().trim();
     var meetup = $("#meetup").val();
@@ -268,6 +282,7 @@ $("#join").click("click", function(event) {
         $("input").css("border-color", "#dc3545");
     }
     $("#hiker").val("");
+    getHikers()
 })
 
 
