@@ -25,6 +25,7 @@ var trails = [
     {
         id: 0,
         name: "Sycamore Trail",
+        img: "assets/images/trail-1-250x200.jpg",
         park: "William B. Umstead State Park",
         url: "https://www.ncparks.gov/william-b-umstead-state-park/trail/sycamore-trail",
         location: "Raleigh, NC", 
@@ -37,6 +38,7 @@ var trails = [
     },
     {   id: 1,
         name: "East Loop Trail",
+        img: "assets/images/trail-2-250x200.jpg",
         park: "Lake Johnson Nature Park",
         url: "https://www.raleighnc.gov/parks/content/ParksRec/Articles/Parks/LakeJohnson.html",
         location: "Raleigh, NC",
@@ -50,6 +52,7 @@ var trails = [
     {
         id: 2,
         name: "Neuse River Trail",
+        img: "assets/images/trail-3-250x200.jpg",
         park: "Falls Lake State Recreation Area",
         url: "https://www.ncparks.gov/falls-lake-state-recreation-area",
         location: "Raleigh, NC",
@@ -63,6 +66,7 @@ var trails = [
     {
         id: 3, 
         name: "Cox Mountain Trail",
+        img: "assets/images/trail-4-250x200.jpg",
         park: "Eno River State Park",
         url: "https://www.ncparks.gov/eno-river-state-park",
         location: "Durham, NC",
@@ -231,12 +235,14 @@ trails.forEach(function(element) {
     // console.log("element", element);
     var colOneOfTwo = $("<div class='col-6 bg-dark'>");
     var rowTwo = $("<div class='row no-gutters text-center m-1'>");
-    var colOneOfThree = $("<div class='col bg-primary text-light mr-1'>");
-    colOneOfThree.html("<h3 class='bg-primary'>" + element.name + "</h3>" + 
-    "<img src='assets/images/trail-1-250x200.jpg'>" + 
+    var colOneOfThree = $("<div class='col bg-info text-light mr-1'>");
+    colOneOfThree.html("<h3>" + element.name + "</h3>" + 
+    "<img class='trail-img' src='" + element.img + "'>" + 
+    "<div class='trail-info'>" + 
     "<p>" + "<a class='park-url' href='" + element.url + "' target='_blank'>" + element.park + "</a></p>" +
     "<p>" + element.location + "</p>" +
     "<p>" + element.mi + " mi / " + element.km + " km</p>" + 
+    "</div>" +
     "<button type='button' class='btn btn-dark parking-btn' data-p_lat='" + element.p_lat + "' data-p_lon='" + element.p_lon + "' data-index='" + trailsIndex + "'>Parking</button>" + 
     "<button type='button' class='btn btn-dark trailhead-btn' data-t_lat='" + element.t_lat + "' data-t_lon='" + element.t_lon + "' data-index='" + trailsIndex + "'>Trailhead</button>");
     var colTwoOfThree = $("<div class='col bg-success text-light'>");

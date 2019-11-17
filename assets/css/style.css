@@ -1,4 +1,5 @@
 body {
+    background-color: #F2F2F2; 
     font-family: 'Oxygen', sans-serif;
 }
 
@@ -14,15 +15,33 @@ table {
     width: 100%;
 }
 
+.trail-img {
+    border-top-right-radius: 2%; 
+    border-top-left-radius: 2%; 
+    border: 1px solid #082140; 
+}
+
 h3 {
+    background-color: rgba(8, 33, 64, .5);
+    border-top: 1px solid white; 
+    border-bottom: 1px solid white; 
+    border-radius: 5%; 
     padding: .20rem; 
     position: absolute; 
     top: 8rem; 
     width: 100%;    
 }
 
+.trail-info {
+    background-color: rgba(8, 33, 64, .4);
+    border-top: 1px solid white; 
+    border-bottom: 1px solid white; 
+    border-radius: 5%; 
+    margin: .8rem 0; 
+}
+
 p {
-    padding: .20rem; 
+    /* padding: .20rem;  */
     margin: 0; 
 }
 
