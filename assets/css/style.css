@@ -64,6 +64,17 @@ input.valid {
     font-size: 2rem;
 }
 
+.badge-td {
+    position: relative; 
+}
+
+.badge {
+    position: absolute; 
+    font-size: .20rem; 
+    right: 8%; 
+    bottom: 8%; 
+}
+
 
 /* Google Fonts
 ----

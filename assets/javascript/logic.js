@@ -18,9 +18,12 @@ var trailsIndex = 0;
 var mapIndex = 0;
 var unix;
 var trailName;
+var badgeIndex;
+var counter = 0;
 
 var trails = [
     {
+        id: 0,
         name: "Sycamore Trail",
         park: "William B. Umstead State Park",
         url: "https://www.ncparks.gov/william-b-umstead-state-park/trail/sycamore-trail",
@@ -32,7 +35,7 @@ var trails = [
         t_lat: 35.871891,
         t_lon: -78.759225
     },
-    {   
+    {   id: 1,
         name: "East Loop Trail",
         park: "Lake Johnson Nature Park",
         url: "https://www.raleighnc.gov/parks/content/ParksRec/Articles/Parks/LakeJohnson.html",
@@ -45,6 +48,7 @@ var trails = [
         t_lon: -78.713874
     }, 
     {
+        id: 2,
         name: "Neuse River Trail",
         park: "Falls Lake State Recreation Area",
         url: "https://www.ncparks.gov/falls-lake-state-recreation-area",
@@ -57,6 +61,7 @@ var trails = [
         t_lon: -78.580258
     },
     {
+        id: 3, 
         name: "Cox Mountain Trail",
         park: "Eno River State Park",
         url: "https://www.ncparks.gov/eno-river-state-park",
@@ -71,7 +76,7 @@ var trails = [
 ]
 
 
-function getForecast(lat, lon, trail) {
+function getForecast(lat, lon, trail, badgeIndex) {
     $.ajax({
         url: "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + key,
         method: "GET",
@@ -91,12 +96,12 @@ function getForecast(lat, lon, trail) {
                 var dayOfWeek = dateTime.format("ddd").toUpperCase();
                 var time = dateTime.format("hA");
                 var temp = Math.round(element.main.temp);
-                var icon = "<td><img class='img-fluid' src='http://openweathermap.org/img/wn/" + element.weather[0].icon + "@2x.png' height='70' width='70'></td>"
+                var icon = "<td class='badge-td'><img class='img-fluid' src='http://openweathermap.org/img/wn/" + element.weather[0].icon + "@2x.png' height='70' width='70'>" + "<span id='" + badgeIndex + "-" + element.dt + "' class='badge badge-info border'></span></td>"
                 // console.log("icon", icon);
                 // console.log("temp", temp);
                 // console.log("dayOfWeek", dayOfWeek);
                 // console.log("time", time);
-                var row = $("<tr data-toggle='modal' data-target='#exampleModal' class='forecast' data-trail='" + trail + "'data-unix='"+ element.dt + "'>");
+                var row = $("<tr data-toggle='modal' data-target='#exampleModal' class='forecast' data-badgeIndex='" + badgeIndex + "' data-trail='" + trail + "'data-unix='"+ element.dt + "'>");
                 var td = $("<td>");
                 td.html(dayOfWeek + " " + time + "<br>" + " " + temp + "&#8457;");
                 row.append(td, icon); 
@@ -107,7 +112,6 @@ function getForecast(lat, lon, trail) {
                 }
             } 
         })
-        // console.log("forecastIndex", forecastIndex);
         forecastIndex++;
     })
 }
@@ -129,7 +133,7 @@ function initMap() {
 function getHikers(unix, trailName) {
     database.ref("hikers").once("value", function(snapshot) {
         if (snapshot.exists()) {
-            console.log("trailName", trailName);
+            // console.log("trailName", trailName);
             snapshot.forEach(function(childSnapshot) {
                 if (childSnapshot.val().unix == unix && childSnapshot.val().trail == trailName) {
                     var row = $("<tr>");
@@ -144,6 +148,15 @@ function getHikers(unix, trailName) {
         }
     })
 }
+
+database.ref("hikers").on("value", function(snapshot) {
+    if(snapshot.exists()) {
+        snapshot.forEach(function(childSnapshot) {
+            $(childSnapshot.val().badge).html("<i class='material-icons'>directions_walk</i>");
+        })
+    }
+})
+
 
 $(document).on("click", ".parking-btn", function(event) {
     var latitude = $(this).data("p_lat");
@@ -236,13 +249,14 @@ trails.forEach(function(element) {
     colOneOfTwo.append(rowTwo);
     row.append(colOneOfTwo, colTwoOfTwo);
     $("#test").append(row);
-    getForecast(element.p_lat, element.p_lon, element.name);
+    getForecast(element.p_lat, element.p_lon, element.name, element.id);
     // console.log("trailsIndex", trailsIndex);
     trailsIndex++;
 })
 
 $(document).on("click", ".forecast", function(event) {
     event.preventDefault();
+    badgeIndex = $(this).attr("data-badgeIndex");
     trailName = $(this).attr("data-trail");
     var forecastDate = $(this).attr("data-unix");
     unix = $(this).attr("data-unix");
@@ -265,6 +279,8 @@ $("#join").click("click", function(event) {
         $(".invalid-feedback").css("display", "none");
         $("input").css("border-color", "");
         database.ref("hikers").push({
+            id: badgeIndex,
+            badge: "#" + badgeIndex + "-" + unix, 
             hiker: hiker,
             trail: trailName,
             meetup: meetup,
@@ -279,98 +295,6 @@ $("#join").click("click", function(event) {
     $("#attendees[data-table='" + unix + "']").html("");
     getHikers(unix, trailName);
 })
-
-
-
-
-
-
-// database.ref("hikers").on("child_added", function(snapshot) {
-//     if (snapshot.exists()) {
-//         var modalID = $("#attendees").data("table");
-//         // $("#attendees[data-table='"+ modalID +"']").html("");
-//         console.log("modalID =>", modalID);
-//         console.log("snapshot.val().unix =>", snapshot.val().unix);
-//         if (snapshot.val().unix == modalID) {
-//         var row = $("<tr>");
-//         var hikerName = "<td>" + snapshot.val().hiker + "</td>";
-//         var hikerMeetup = "<td>" + snapshot.val().meetup + "</td>";
-//         row.append(hikerName, hikerMeetup);
-//             $("#attendees[data-table='"+ modalID +"']").append(row);
-//         } else {
-//             console.log("snapshot.val().unix != modalID")
-//         }
-//     }
-// })
-
-
-
-
-
-// database.ref("hikers").on("value")
-
-
-
-// function initMap() {
-//     var map = new google.maps.Map(document.getElementById('map-0'), {
-//         center: myLatLng,
-//         zoom: 15
-//     });
-    
-// $(document).on("click", ".parking-btn", function(event) {
-//     map = new google.maps.Map(document.getElementById('map-0'), {
-//         center: myLatLng,
-//         mapTypeId: google.maps.MapTypeId.SATELLITE,
-//         zoom: 20
-//     });
-
-//     var infowindow = new google.maps.InfoWindow({
-//         content: "35.867542, -78.752154"
-//     });
-
-//     var marker = new google.maps.Marker({
-//         position: myLatLng,
-//         animation: google.maps.Animation.DROP,
-//         map: map
-//         });
-//         infowindow.open(map, marker);
-//         marker.addListener("click", function() {
-//             infowindow.open(map, marker);
-//         })
-//     })
-    
-// $(document).on("click", ".trailhead-btn", function(event) {
-//     map = new google.maps.Map(document.getElementById('map-0'), {
-//         center: {lat: 35.87185, lng: -78.76085},
-//         mapTypeId: google.maps.MapTypeId.SATELLITE,
-//         zoom: 20
-//     })
-//     var infowindow = new google.maps.InfoWindow({
-//         content: "35.87185, -78.76085"
-//     })
-//     var marker = new google.maps.Marker({
-//         position: {lat: 35.87185, lng: -78.76085},
-//         animation: google.maps.Animation.DROP,
-//         map: map
-//         });
-//         infowindow.open(map, marker);
-//         marker.addListener("click", function() {
-//             infowindow.open(map, marker);
-//         })
-//     })
-// }
-
-
-// function snapshotToArray(snapshot) {
-//     var returnArr = [];
-//     snapshot.forEach(function(childSnapshot) {
-//         var item = childSnapshot.val();
-//         item.key = childSnapshot.key;
-
-//         returnArr.push(item);
-//     })
-//     return returnArr
-// }
 
 
 // .format("dddd, MMMM Do YYYY, h:mm:ss a")
