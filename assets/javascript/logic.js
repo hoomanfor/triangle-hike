@@ -106,8 +106,8 @@ function getForecast(lat, lon, trail, badgeIndex) {
                 // console.log("dayOfWeek", dayOfWeek);
                 // console.log("time", time);
                 var row = $("<tr data-toggle='modal' data-target='#exampleModal' class='forecast' data-badgeIndex='" + badgeIndex + "' data-trail='" + trail + "'data-unix='"+ element.dt + "'>");
-                var td = $("<td>");
-                td.html(dayOfWeek + " " + time + "<br>" + " " + temp + "&#8457;");
+                var td = $("<td class='forecast-text-td'>");
+                td.html(dayOfWeek + " " + time + "<br>" + " " + "<span class='temp'>" + temp + "</span>" + "&#8457;");
                 row.append(td, icon); 
                 if (index < 6) {
                     $("#forecast-col-1-" + forecastIndex).append(row);
@@ -233,9 +233,9 @@ $(document).on("click", ".trailhead-btn", function(event) {
 trails.forEach(function(element) {
     var row = $("<div class='row no-gutters'>");
     // console.log("element", element);
-    var colOneOfTwo = $("<div class='col-6 bg-dark'>");
+    var colOneOfTwo = $("<div class='col-md-7 col-xl-6 bg-dark'>");
     var rowTwo = $("<div class='row no-gutters text-center m-1'>");
-    var colOneOfThree = $("<div class='col bg-info text-light mr-1'>");
+    var colOneOfThree = $("<div class='col text-light mr-1 trail-card'>");
     colOneOfThree.html("<h3>" + element.name + "</h3>" + 
     "<img class='trail-img' src='" + element.img + "'>" + 
     "<div class='trail-info'>" + 
@@ -245,11 +245,11 @@ trails.forEach(function(element) {
     "</div>" +
     "<button type='button' class='btn btn-dark parking-btn' data-p_lat='" + element.p_lat + "' data-p_lon='" + element.p_lon + "' data-index='" + trailsIndex + "'>Parking</button>" + 
     "<button type='button' class='btn btn-dark trailhead-btn' data-t_lat='" + element.t_lat + "' data-t_lon='" + element.t_lon + "' data-index='" + trailsIndex + "'>Trailhead</button>");
-    var colTwoOfThree = $("<div class='col bg-success text-light'>");
+    var colTwoOfThree = $("<div class='col'>");
     colTwoOfThree.html("<table><tbody id='forecast-col-1-" + trailsIndex + "'></tbody></table>");
-    var colThreeOfThree = $("<div class='col bg-success text-light'>");
+    var colThreeOfThree = $("<div class='col'>");
     colThreeOfThree.html("<table><tbody id='forecast-col-2-" + trailsIndex + "'></tbody></table>");
-    var colTwoOfTwo = $("<div class='col-6 pr-1 py-1 bg-dark'>");
+    var colTwoOfTwo = $("<div class='col-md-5 col-xl-6 pr-1 py-1 bg-dark'>");
     colTwoOfTwo.html("<div style='height: 100%;' id='map-" + trailsIndex + "'></div>")
     rowTwo.append(colOneOfThree, colTwoOfThree, colThreeOfThree);
     colOneOfTwo.append(rowTwo);
