@@ -10,11 +10,16 @@ table {
     width: 100%; 
 }
 
-.table {
-    border-collapse: separate;
+.table-sm {
+    /* border-collapse: separate; */
+    font-family: 'Nunito Sans', sans-serif;
     text-align: left; 
     font-size: .90rem;
     width: 100%;
+}
+
+th {
+    font-size: 1.2rem;
 }
 
 .trail-card {

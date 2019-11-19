@@ -135,20 +135,27 @@ function initMap() {
 }
 
 function getHikers(unix, trailName) {
+    var counter = 0;
     database.ref("hikers").once("value", function(snapshot) {
         if (snapshot.exists()) {
             // console.log("trailName", trailName);
             snapshot.forEach(function(childSnapshot) {
                 if (childSnapshot.val().unix == unix && childSnapshot.val().trail == trailName) {
+                    counter++
                     var row = $("<tr>");
-                    var hikerName = "<td>" + childSnapshot.val().hiker + "</td>";
-                    var hikerMeetup = "<td>" + childSnapshot.val().meetup + "</td>";
+                    var hikerName = "<td class='border'>" + childSnapshot.val().hiker + "</td>";
+                    var hikerMeetup = "<td class='border'>" + childSnapshot.val().meetup + "</td>";
                     row.append(hikerName, hikerMeetup);
                         $("#attendees[data-table='"+ unix +"']").append(row);
                 } else {
                     console.log("Does not meet condition.")
                 }
             })
+            if (counter == 0) {
+                $(".table-sm").addClass("d-none");
+            } else {
+                $(".table-sm").removeClass("d-none");
+            }
         }
     })
 }
@@ -262,6 +269,7 @@ trails.forEach(function(element) {
 
 $(document).on("click", ".forecast", function(event) {
     event.preventDefault();
+    $("form").removeClass("d-none");
     badgeIndex = $(this).attr("data-badgeIndex");
     trailName = $(this).attr("data-trail");
     var forecastDate = $(this).attr("data-unix");
@@ -276,7 +284,7 @@ $(document).on("click", ".forecast", function(event) {
 });
 
 $("#join").click("click", function(event) {
-    event.preventDefault(); 
+    event.preventDefault();
     var hiker = $("#hiker").val().trim();
     var meetup = $("#meetup").val();
     // console.log("hiker", hiker);
@@ -293,6 +301,7 @@ $("#join").click("click", function(event) {
             date_added: firebase.database.ServerValue.TIMESTAMP,
             unix: unix
         })
+        $("form").addClass("d-none");
     } else {
         $(".invalid-feedback").css("display", "block");
         $("input").css("border-color", "#dc3545");
