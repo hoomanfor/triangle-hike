@@ -240,7 +240,7 @@ $(document).on("click", ".trailhead-btn", function(event) {
 trails.forEach(function(element) {
     var row = $("<div class='row no-gutters'>");
     // console.log("element", element);
-    var colOneOfTwo = $("<div class='col-md-7 col-xl-6 bg-dark'>");
+    var colOneOfTwo = $("<div class='col-sm-12 col-md-7 col-xl-6 bg-dark'>");
     var rowTwo = $("<div class='row no-gutters text-center m-1'>");
     var colOneOfThree = $("<div class='col text-light mr-1 trail-card'>");
     colOneOfThree.html("<h3>" + element.name + "</h3>" + 
@@ -256,12 +256,12 @@ trails.forEach(function(element) {
     colTwoOfThree.html("<table><tbody id='forecast-col-1-" + trailsIndex + "'></tbody></table>");
     var colThreeOfThree = $("<div class='col'>");
     colThreeOfThree.html("<table><tbody id='forecast-col-2-" + trailsIndex + "'></tbody></table>");
-    var colTwoOfTwo = $("<div class='col-md-5 col-xl-6 pr-1 py-1 bg-dark'>");
+    var colTwoOfTwo = $("<div class='col-sm-12 col-md-5 col-xl-6 pr-1 py-1 bg-dark'>");
     colTwoOfTwo.html("<div style='height: 100%;' id='map-" + trailsIndex + "'></div>")
     rowTwo.append(colOneOfThree, colTwoOfThree, colThreeOfThree);
     colOneOfTwo.append(rowTwo);
     row.append(colOneOfTwo, colTwoOfTwo);
-    $("#test").append(row);
+    $("#main").append(row);
     getForecast(element.p_lat, element.p_lon, element.name, element.id);
     // console.log("trailsIndex", trailsIndex);
     trailsIndex++;

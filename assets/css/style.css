@@ -30,6 +30,14 @@ th {
     border: 1px solid #082140; 
 }
 
+.triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-bottom: 50px solid #555;
+}
+
 h3 {
     background-color: rgba(8, 33, 64, .5);
     border-top: 1px solid white; 
@@ -124,6 +132,14 @@ input.valid {
 }
 
 @media only screen and (max-width: 1200px) {
+    .container {
+        width: 100%; 
+        max-width: none;
+        /* padding: 0;  */
+    }
+}
+
+@media only screen and (max-width: 992px) {
     .container {
         width: 100%; 
         max-width: none;
