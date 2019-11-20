@@ -3,6 +3,10 @@ body {
     font-family: 'Oxygen', sans-serif;
 }
 
+.header-container {
+    color: white; 
+}
+
 
 table {
     text-align: right; 
@@ -11,7 +15,6 @@ table {
 }
 
 .table-sm {
-    /* border-collapse: separate; */
     font-family: 'Nunito Sans', sans-serif;
     text-align: left; 
     font-size: .90rem;
@@ -28,14 +31,6 @@ th {
 
 .trail-img {
     border: 1px solid #082140; 
-}
-
-.triangle-up {
-	width: 0;
-	height: 0;
-	border-left: 25px solid transparent;
-	border-right: 25px solid transparent;
-	border-bottom: 50px solid #555;
 }
 
 h3 {

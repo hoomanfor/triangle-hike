@@ -148,7 +148,7 @@ function getHikers(unix, trailName) {
                     row.append(hikerName, hikerMeetup);
                         $("#attendees[data-table='"+ unix +"']").append(row);
                 } else {
-                    console.log("Does not meet condition.")
+                    // console.log("Does not meet condition.")
                 }
             })
             if (counter == 0) {
@@ -310,10 +310,3 @@ $("#join").click("click", function(event) {
     $("#attendees[data-table='" + unix + "']").html("");
     getHikers(unix, trailName);
 })
-
-
-// .format("dddd, MMMM Do YYYY, h:mm:ss a")
-
-// https://openweathermap.org/forecast5
-// https://openweathermap.org/weather-conditions
-// AIzaSyDHPCmrDYfaXdUyjIQ16ArreXKY9kZKAVI
