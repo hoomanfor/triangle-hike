@@ -8,6 +8,6 @@ What's the weather going to be like?
 
 Will I have a hiking buddy? 
 
-By clicking on a forcasted time and date, I'll be able to find others who have committed to the hike. Additionally, I can find out where we'll meetup and what the weather's like. 
+By clicking on a forecasted time and date, I'll be able to find others who have committed to the hike. Additionally, I can find out where we'll meetup and what the weather's like. 
 
 Happy Hiking!
